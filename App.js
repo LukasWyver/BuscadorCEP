@@ -46,76 +46,86 @@ export default function searchCep() {
       Keyboard.dismiss(); //garante que o teclado seja fechado.
     } catch (error) {
       setModalVisible(true);
+      setCep("");
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logo}>
-        <LogoSvg width={width / 2} height={height / 2} />
+        <LogoSvg width={width / 2} height={height / 3} />
       </View>
-      <View style={{ flex: 3 }}>
-        <View style={styles.header}>
-          <Text style={styles.text}>Digite o cep desejado:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="12345-678"
-            placeholderTextColor="#ccc"
-            value={cep}
-            onChangeText={(texto) => setCep(texto)}
-            keyboardType="numeric"
-            ref={inputRef}
-            maxLength={8}
-          />
-        </View>
 
-        <View style={styles.main}>
-          <TouchableOpacity
-            style={[styles.buttom, styles.buttomClear]}
-            onPress={clear}
-          >
-            <Text style={styles.textButtonLimpar}>Limpar</Text>
-            <MaterialIcons name="delete-outline" size={24} color="#B8B5FF" />
-          </TouchableOpacity>
+      <View style={styles.header}>
+        <Text style={styles.text}>Digite o cep desejado:</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="12345-678"
+          placeholderTextColor="#ccc"
+          value={cep}
+          onChangeText={(texto) => setCep(texto)}
+          keyboardType="numeric"
+          ref={inputRef}
+          maxLength={8}
+        />
+      </View>
 
-          <TouchableOpacity
-            style={[styles.buttom, { marginLeft: "10%" }]}
-            onPress={search}
-          >
-            <Text style={styles.textButtonBuscar}>Buscar</Text>
-            <MaterialIcons name="search" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.main}>
+        <TouchableOpacity
+          style={[styles.buttom, styles.buttomClear]}
+          onPress={clear}
+        >
+          <Text style={styles.textButtonLimpar}>Limpar</Text>
+          <MaterialIcons name="delete-outline" size={24} color="#B8B5FF" />
+        </TouchableOpacity>
 
-        <Modal transparent={true} animationType="fade" visible={modalVisible}>
-          <ModalActive inactive={() => setModalVisible(false)} />
-        </Modal>
+        <TouchableOpacity
+          style={[styles.buttom, { marginLeft: "10%" }]}
+          onPress={search}
+        >
+          <Text style={styles.textButtonBuscar}>Buscar</Text>
+          <MaterialIcons name="search" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
 
-        {cepSelected && (
-          <View style={styles.footer}>
-            <View style={styles.footerRow}>
-              <Text style={styles.textInfo}>CEP:</Text>
-              <Text style={styles.textResults}>{cepSelected.cep}</Text>
-            </View>
-            <View style={styles.footerRow}>
-              <Text style={styles.textInfo}>RUA:</Text>
-              <Text style={styles.textResults}>{cepSelected.logradouro}</Text>
-            </View>
-            <View style={styles.footerRow}>
-              <Text style={styles.textInfo}>BAIRRO:</Text>
-              <Text style={styles.textResults}>{cepSelected.bairro}</Text>
-            </View>
-            <View style={styles.footerRow}>
-              <Text style={styles.textInfo}>CIDADE:</Text>
-              <Text style={styles.textResults}>{cepSelected.localidade}</Text>
-            </View>
-            <View style={styles.footerRow}>
-              <Text style={styles.textInfo}>ESTADO:</Text>
-              <Text style={styles.textResults}>{cepSelected.uf}</Text>
-            </View>
+      <Modal transparent={true} animationType="fade" visible={modalVisible}>
+        <ModalActive inactive={() => setModalVisible(false)} />
+      </Modal>
+
+      {cepSelected && (
+        <View style={styles.footer}>
+          <View style={styles.footerRow}>
+            <Text style={styles.textInfo}>{cepSelected.cep ? "CEP:" : ""}</Text>
+            <Text style={styles.textResults}>{cepSelected.cep}</Text>
           </View>
-        )}
-      </View>
+
+          <View style={styles.footerRow}>
+            <Text style={styles.textInfo}>
+              {cepSelected.logradouro ? "RUA:" : ""}
+            </Text>
+            <Text style={styles.textResults}>{cepSelected.logradouro}</Text>
+          </View>
+
+          <View style={styles.footerRow}>
+            <Text style={styles.textInfo}>
+              {cepSelected.bairro ? "BAIRRO:" : ""}
+            </Text>
+            <Text style={styles.textResults}>{cepSelected.bairro}</Text>
+          </View>
+          <View style={styles.footerRow}>
+            <Text style={styles.textInfo}>
+              {cepSelected.localidade ? "CIDADE:" : ""}
+            </Text>
+            <Text style={styles.textResults}>{cepSelected.localidade}</Text>
+          </View>
+          <View style={styles.footerRow}>
+            <Text style={styles.textInfo}>
+              {cepSelected.uf ? "ESTADO:" : ""}
+            </Text>
+            <Text style={styles.textResults}>{cepSelected.uf}</Text>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -126,8 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDEEF7",
   },
   logo: {
-    flex: 1,
-    marginTop: 32,
+    marginTop: 22,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -135,13 +144,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    marginTop: 32,
+    marginTop: 22,
     fontSize: 24,
     fontWeight: "bold",
     color: "#7868E6",
   },
   textInput: {
-    marginTop: 32,
+    marginTop: 22,
     backgroundColor: "#f9f9f9",
     borderWidth: 1,
     borderColor: "#B8B5FF",
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   main: {
-    marginTop: 32,
+    marginTop: 22,
     alignItems: "center",
     flexDirection: "row",
     marginLeft: "10%",
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
     color: "#f9f9f9",
   },
   footer: {
-    marginTop: 32,
+    marginTop: 22,
     marginLeft: "10%",
     marginRight: "10%",
   },
